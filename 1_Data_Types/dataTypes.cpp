@@ -245,6 +245,7 @@ void stringTypes()
     cout << "String[3] : " << charArr[3] << endl;
     cout << "String[5] : " << charArr[5] << endl;
     cout << "String[7] : " << charArr[7] << endl;
+    cout << "String[8] : " << charArr[8] << endl;
 
     char again;
 
