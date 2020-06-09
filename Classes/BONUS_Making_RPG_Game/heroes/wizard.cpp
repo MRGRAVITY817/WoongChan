@@ -4,7 +4,9 @@
 #include "./heroes.cpp"
 
 Wizard::Wizard(const char _name[]) 
-: Heroes(_name, 75.0f, 7) {}
+: Heroes(_name, 75.0f, 7) {
+    maxHealth = 75;
+}
 
 Wizard::~Wizard() {}
 
@@ -59,8 +61,16 @@ void Wizard::ressurection(float luck, Heroes* H) {
 } 
 
 void Wizard::meditate() {
+    if(magicka==maxMagicka){
+        cout << "Magicka Full" << endl;
+        return;
+    }
     cout << "Meditating..." << endl;
-    magicka += 20;
+    if(magicka+20 >= maxMagicka){
+        magicka = maxMagicka;
+    }
+    else
+        magicka += 20;
 }
 
 bool Wizard::isMagicable(int skill) {
@@ -96,4 +106,16 @@ bool Wizard::isMagicable(int skill) {
     return false;
 }
 
+void Wizard::printStatus(){
+    cout << name << " "
+         << "HP: " << health << "/" << maxHealth << " "
+         << "SP: " << shieldPoint << "/" << maxShieldPoint << " ";
+    if(!isAlive){
+        cout << "[DEAD]" << endl;
+        return;
+    }
+    cout << "MP: " << magicka << "/" << maxMagicka << " ";
+    // Defensing status
+    cout << endl;
+}
 #endif

@@ -31,6 +31,9 @@ void Heroes::damaged(int enemyAttack) {
   else {}
 }
 
+// It will just override.
+void Heroes::printStatus(){}
+
 class Warrior : public Heroes {
   private: 
     int strength = 5;
@@ -44,12 +47,14 @@ class Warrior : public Heroes {
     bool defense();
     void reflectAttack(Enemies* E, int enemyAttack);
     void damaged(Enemies* E, int enemyAttack); // Final override. No more overriding now!
+    void printStatus() final;
 };
 
 class Archer : public Heroes {
   private: 
     int dexterity = 5;
     int arrows = 15;
+    const int maxArrows = 15;
     float accuracy = 0.76;
 
   public: 
@@ -60,13 +65,15 @@ class Archer : public Heroes {
     bool checkReachable(Enemies* E);
     void sniping(Enemies* E);
     void damaged(int enemyAttack) final;
+    void printStatus() final;
 };
 
 class Wizard : public Heroes {
   private:
     int intelligence = 5;
     float magicka = 50;
-    bool isHealable = true;
+    const int maxMagicka = 50;
+
   public:
     Wizard(const char _name[]);
     ~Wizard();
@@ -75,20 +82,23 @@ class Wizard : public Heroes {
     void ressurection(float luck, Heroes* H);
     void meditate();
     bool isMagicable(int skill);
+    void printStatus() final;
 };
 
 class Hermit : public Heroes {
   private:
     int speed;
-    float luck;
+    int luck;
     bool isVisible;
 
   public:
     Hermit(const char _name[]);
     ~Hermit();
+    void rollDice();
     void assassinate(Enemies* E);
     bool sneak();
-    bool swtichBack(Enemies* E);
+    bool switchBack(Enemies* E);
+    void printStatus() final;
 };
 
 #endif

@@ -4,7 +4,9 @@
 #include "./heroes.cpp"
 
 Warrior::Warrior(const char _name[])
-: Heroes(_name, 100.0f, 10) {}
+: Heroes(_name, 100.0f, 10) {
+    maxHealth = 100;
+}
 
 Warrior::~Warrior() {}
 
@@ -25,11 +27,18 @@ bool Warrior::defense() {
 }
 
 void Warrior::reflectAttack(Enemies* E, int enemyAttack) {
+    if(E->getName()=="Wyvern"){
+        cout << "Failed to reflect back to air unit(s)" << endl;
+        return;
+    }
+
     if(!isDefensing) {
         cout << "The Warrior is not defensing now. " << endl;
+        return;
     }
     else {
         int warriorAttack = guardPoint*enemyAttack;
+        cout << "Reflect counter! " << warriorAttack << " points of damage to " << E->getName() << " !" << endl;
         E->damaged(warriorAttack);
     }
 }
@@ -58,6 +67,20 @@ void Warrior::damaged(Enemies* E, int enemyAttack) {
             cout << "The Warrior is dead." << endl;
         }
         else {}
+    }
+}
+
+void Warrior::printStatus(){
+    cout << name << " "
+         << "HP: " << health << "/" << maxHealth << " "
+         << "SP: " << shieldPoint << "/" << maxShieldPoint << " ";
+    if(!isAlive){
+        cout << "[DEAD]" << endl;
+        return;
+    }
+    // Defensing status
+    isDefensing ? cout << "[Defense mode] " : cout << "[Attack mode] ";
+    cout << endl;
 }
 
 #endif

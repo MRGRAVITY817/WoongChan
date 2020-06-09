@@ -8,15 +8,15 @@ Enemies::Enemies(const char eName[], float eHealth)
 
 Enemies::~Enemies() {}
 
-void Enemies::attack(Creatures* C) {
-  C->damaged(attackPoint);
+void Enemies::attack(Heroes* H) {
+  H->damaged(attackPoint);
 }
 
 // Sacrifices the friend to get health 
-void Enemies::eatFriend(Creatures* C) {
-  int sacrifice = C->getHealth();
+void Enemies::eatFriend(Enemies* E) {
+  int sacrifice = E->getHealth();
   healed(sacrifice);
-  C->setHealth(0);
+  E->setHealth(0);
 }
 
 void Enemies::damaged(int heroAttack) {
@@ -24,8 +24,15 @@ void Enemies::damaged(int heroAttack) {
 }
 
 void Enemies::healed(float healPoint) {
-  health += healPoint*stamina; 
+  float healthIncrease = healPoint*stamina; 
+  if((health+healthIncrease)>maxHealth){
+    setHealth(maxHealth);
+    return;
+  }
+  setHealth(health+healthIncrease);
 }
+
+void Enemies::printStatus(){} // This will just override.
 
 class Wyvern : public Enemies {
   private:
@@ -34,11 +41,12 @@ class Wyvern : public Enemies {
     bool isFlying;
   
   public:
-    Wyvern(const char _name[], float _health);
+    Wyvern();
     ~Wyvern();
     void fireball(Heroes* H);
     void damaged(int heroAttack) final;
     void healed(float healPoint) final;
+    void printStatus() final;
 };
 
 class Gollem : public Enemies {
@@ -46,23 +54,26 @@ class Gollem : public Enemies {
     int hardness;
   
   public:
-    Gollem(const char _name[], float _health);
+    Gollem();
     ~Gollem();
     void earthquake(Heroes* H1, Heroes* H2, Heroes* H3); 
     void damaged(int heroAttack) final;
+    void printStatus() final;
 };
 
 class Mushroom : public Enemies {
   private:
     int toxicity;
     int spore;
+    Environment* env;
 
   public: 
-    Mushroom(const char _name[], float _health);
+    Mushroom(Environment* env);
     ~Mushroom();
     void spreadToxic();
-    int babyMushrooms(); // Leaves baby mushrooms when dead;
+    void babyMushrooms(); // Leaves baby mushrooms when dead;
     void damaged(int heroAttack) final;
+    void printStatus() final;
 };
 
 class Wraith : public Enemies {
@@ -70,11 +81,12 @@ class Wraith : public Enemies {
     float antiLuck;
   
   public:
-    Wraith(const char _name[], float _health);
+    Wraith();
     ~Wraith();
     void unfriended(Heroes* H);
     void nightmare(Heroes* H);
     void damaged(int heroAttack) final;
+    void printStatus() final;
 };
 
 #endif

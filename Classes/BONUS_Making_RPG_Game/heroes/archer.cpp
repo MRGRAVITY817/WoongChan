@@ -4,7 +4,9 @@
 #include "./heroes.cpp"
 
 Archer::Archer(const char _name[])
-: Heroes(_name, 85.0f, 10) {}
+: Heroes(_name, 85.0f, 10) {
+    maxHealth = 85;
+}
 
 Archer::~Archer() {}
 
@@ -80,6 +82,18 @@ void Archer::damaged(int enemyAttack) {
         cout << "The Archer is dead." << endl;
     }
     else {}
+}
+
+void Archer::printStatus(){
+    cout << name << " "
+         << "HP: " << health << "/" << maxHealth << " "
+         << "SP: " << shieldPoint << "/" << maxShieldPoint << " ";
+    if(!isAlive){
+        cout << "[DEAD]" << endl;
+        return;
+    }
+    cout << "Arrows: " << arrows << "/" << maxArrows << " ";
+    cout << endl;
 }
 
 #endif
