@@ -28,7 +28,7 @@ class Node {
 
 int main(){
     // Create Nodes
-        Node* sample0 = new Node();
+	Node* sample0 = new Node();
 	Node* sample1 = new Node();
 	Node* sample2 = new Node();
 	Node* sample3 = new Node();
