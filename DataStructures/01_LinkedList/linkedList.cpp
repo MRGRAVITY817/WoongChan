@@ -2,24 +2,24 @@
 using namespace std;
 
 class Node {
-	public:
+  public:
 
-		int peopleNumber;
-		Node* prev;
-		Node* next;
-		// Constructor
+    int peopleNumber;
+    Node* prev;
+    Node* next;
+    // Constructor
 
-		Node(){
-			this->peopleNumber = 0;
-			this->prev= NULL;
-			this->next = NULL;
-		}
+    Node(){
+      this->peopleNumber = 0;
+      this->prev= NULL;
+      this->next = NULL;
+    }
 
-		Node(int _peopleNumber){
-			this->peopleNumber = _peopleNumber;
-			this->prev= NULL;
-			this->next = NULL;
-		}
+    Node(int _peopleNumber){
+      this->peopleNumber = _peopleNumber;
+      this->prev= NULL;
+      this->next = NULL;
+    }
 
 		~Node(){
 		}
@@ -68,6 +68,8 @@ class Node {
           return;
         }
       }
+
+      
     }
     
     void changeSeat(Node* changeNode, int Number){
@@ -100,6 +102,21 @@ class Node {
         tmp->prev = changeNode;
       }
 
+    }
+
+    void swapSeat(Node* nodeOne, Node* nodeTwo){
+      Node* tmp1 = nodeTwo->next;
+
+      // Node-one family solve!
+      nodeOne->prev->next = nodeTwo;
+      nodeTwo->prev = nodeOne->prev;
+      nodeTwo->next = nodeOne->next;
+      nodeOne->next->prev = nodeTwo;
+       // Node-two family solve!
+      nodeTwo->next->next = nodeOne;
+      nodeOne->prev = nodeTwo->next;
+      nodeOne->next = tmp1;
+      tmp1->prev = nodeOne;
     }
 };
 
@@ -143,29 +160,44 @@ int main(){
   firstContainer->insertNext(sixthContainer);
 
 	// Iterating through link nodes
+  cout << "Iterating through link nodes"<< endl;
 	Node* iter = firstContainer;
 	for(int i=0; i<6; ++i){
 		iter->printData();
 		iter = iter->next;
 	}
+  cout << endl;
 
+  // Swap seat between Second and Fourth
+  cout << "Swap seat between Second and Fourth"<< endl;
+  firstContainer->swapSeat(secondContainer, fourthContainer);
+  iter = firstContainer;
+	for(int i=0; i<6; ++i){
+		iter->printData();
+		iter = iter->next;
+	}
+  cout << endl;
+
+  
+  cout << "Delete Fourth Container"<< endl;
   firstContainer->deleteNode(fourthContainer);
-  cout << endl;
-
   iter = firstContainer;
 	for(int i=0; i<5; ++i){
 		iter->printData();
 		iter = iter->next;
 	}
+  cout << endl;
 
+  
+  cout << "Change Second Conatiner to 4th place"<< endl;
   firstContainer->changeSeat(secondContainer, 4);
-  cout << endl;
-
   iter = firstContainer;
 	for(int i=0; i<5; ++i){
 		iter->printData();
 		iter = iter->next;
 	}
+  cout << endl;
+
 
   /*
 	delete firstContainer;
