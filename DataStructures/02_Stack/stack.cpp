@@ -41,6 +41,17 @@ template<class T> class Stack{
     // Return top element
     T Top(){
       return (!empty()) ? values[top] : NULL;
+
+      /*
+      Ternary Expression
+      (condition) ? yes value : no value
+      if(woonchan==smart)
+        value = yeah
+      else
+        value = myeah
+      */
+
+      value = (woongchan==smart) ? yeah : myeah
     }
     // Callbacks
     bool empty(){
